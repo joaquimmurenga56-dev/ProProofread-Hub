@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8501:8501"
+    environment:
+      - APP_ENV=development
+      - DATABASE_URL=postgresql://proproofread:proproofread@postgres:5432/proproofread_db
+    depends_on:
+      - postgres
+    volumes:
+      - ./.env:/app/.env
+
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=proproofread
+      - POSTGRES_PASSWORD=proproofread
+      - POSTGRES_DB=proproofread_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
